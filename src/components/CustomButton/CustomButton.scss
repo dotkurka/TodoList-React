@@ -1,0 +1,28 @@
+$bgcolor: rgb(97, 0, 238);
+
+.Custom-Button {
+    background: $bgcolor;
+    border-radius: 6px;
+    color: white;
+    width: 98px;
+    height: 42px;
+    font-size: 16px;
+    border: none;
+    box-shadow: -3px 7px 12px -6px rgba(0, 0, 0, 0.479);
+    cursor: pointer;
+    &:hover {
+        background: rgb(109, 11, 255);
+        box-shadow: -3px 7px 12px -2px rgba(0, 0, 0, 0.479);
+    }
+}
+
+.Cancel-Button {
+    border: 2px solid rgb(97, 0, 238);
+    color: rgb(97, 0, 238);
+    background-color: white;
+    &:hover {
+        background-color: white;
+        border-color: rgb(109, 11, 255);
+        box-shadow: -3px 7px 12px -2px rgba(0, 0, 0, 0.479);
+    }
+}

@@ -1,0 +1,18 @@
+$size: 42px;
+
+.Close-Button {
+    height: $size;
+    width: $size;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        background-color: rgb(218, 0, 0);
+    }
+    &:focus {
+        background-color: rgb(154, 1, 1);
+    }
+}

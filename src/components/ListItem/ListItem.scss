@@ -1,0 +1,38 @@
+.Todo-Post {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px;
+    max-width: 700px;
+
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+
+    $border: 5px;
+    color: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: solid $border transparent;
+    border-radius: 17px;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: -30px;
+        z-index: -1;
+        margin: -$border;
+        border-radius: inherit;
+        background: linear-gradient(to right, rgba(72, 13, 181, 0.623), rgba(247, 0, 255, 0.774));
+    }
+    h1 {
+        font-size: 24px;
+    }
+}
+.Toggle-Todo {
+    background: rgb(137, 236, 137);
+}

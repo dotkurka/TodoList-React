@@ -1,0 +1,47 @@
+$radius: 10px;
+$brdcolor: rgb(97, 0, 238);
+$brdhover: rgb(1, 145, 255);
+$brdfocus: rgb(3, 115, 201);
+$bgcolor: white;
+
+.Custom-Field {
+    position: relative;
+    &-Input {
+        width: 340px;
+        height: 45px;
+        border: 2px solid $brdcolor;
+        border-radius: $radius;
+        outline: none;
+        padding: 0 18px;
+        background: none;
+        font-size: 1.2rem;
+
+        &:hover {
+            border-color: $brdhover;
+        }
+        &:focus {
+            border-color: $brdfocus;
+        }
+    }
+    &-Lable {
+        position: absolute;
+        left: 13px;
+        top: 14px;
+        padding: 0 0.5rem;
+        color: $brdcolor;
+        cursor: text;
+        transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+    }
+}
+
+.Custom-Field-Input:focus ~ .Custom-Field-Lable,
+.Custom-Field-Input:not(:placeholder-shown).Custom-Field-Input:not(:focus) ~ .Custom-Field-Lable {
+    top: -0.5rem;
+    font-size: 0.9rem;
+    left: 0.8rem;
+    background-color: $bgcolor;
+}
+
+.Error-Input {
+    border-color: red;
+}
