@@ -1,6 +1,8 @@
 import React from "react";
 import "./TodoPost.scss";
 import ListItem from "../../../components/ListItem/ListItem";
+import CloseButton from "../../../components/CloseButton/CloseButton";
+import CustomCheckbox from "../../../components/CustomCheckbox/CustomCheckbox";
 
 const TodoPost = ({ toggleTodo, number, post }) => {
     return (
@@ -14,8 +16,9 @@ const TodoPost = ({ toggleTodo, number, post }) => {
                 </h1>
                 <p>{post.descripton}</p>
             </div>
-            <div>
-                <input type="checkbox" onChange={() => toggleTodo(post.id)} />
+            <div className="Todo-Post-Button">
+                <CloseButton />
+                <CustomCheckbox onChange={() => toggleTodo(post.id)} />
             </div>
         </ListItem>
     );

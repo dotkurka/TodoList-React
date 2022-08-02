@@ -3,6 +3,7 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import PopUp from "../../../components/PopUp/PopUp";
 import TodoForm from "../TodoForm/TodoForm";
 import TodoList from "../TodoList/TodoList";
+import PopUpQuestion from "../../../components/PopUpQuestion/PopUpQuestion";
 
 const MainTodo = () => {
     const [posts, setPosts] = useState([
@@ -38,15 +39,22 @@ const MainTodo = () => {
     };
 
     const [popup, setPopup] = useState(false);
+    const [popupQue, setPopupQue] = useState(false);
 
     return (
         <div>
-            <CustomButton onClick={() => setPopup(true)}>Create todo</CustomButton>
             <PopUp visible={popup} setVisible={setPopup}>
-                <TodoForm create={createPost} />
+                <TodoForm setVisible={setPopupQue} setModal={setPopup} create={createPost} />
             </PopUp>
+            <PopUpQuestion
+                visible={popupQue}
+                setVisible={setPopupQue}
+                setModal={setPopup}
+                title={"Are you sure you want to cancel?"}
+            />
 
             <TodoList posts={posts} tittle="Todo List" toggleTodo={toggleTodo} />
+            <CustomButton onClick={() => setPopup(true)}>Create todo</CustomButton>
         </div>
     );
 };
