@@ -26,6 +26,7 @@ const MainTodo = () => {
 
     const [popup, setPopup] = useState(false);
     const [popupQue, setPopupQue] = useState(false);
+    const [popupRemove, setPopupRemove] = useState(false);
 
     const [archive, setArchive] = useState([]);
 
@@ -45,9 +46,9 @@ const MainTodo = () => {
         setPosts(mappedPost);
     };
 
-    const archivePost = (post) => {
-        const newArchive = posts.filter((p) => {
-            if (p.id === post.id) {
+    const archivePost = () => {
+        const newArchive = posts.filter((post) => {
+            if (post.complited) {
                 archive.push(post);
                 console.log(archive);
                 return false;
@@ -58,10 +59,16 @@ const MainTodo = () => {
         setPosts(newArchive);
     };
 
-    const removePost = (post) => {
+    const removeArchivePost = (post) => {
         const removeItem = archive.filter((p) => p.id !== post.id);
 
         setArchive(removeItem);
+    };
+
+    const removePost = (post) => {
+        const removeItem = posts.filter((p) => p.id !== post.id);
+
+        setPosts(removeItem);
     };
 
     return (
@@ -76,10 +83,24 @@ const MainTodo = () => {
                 title={"Are you sure you want to cancel?"}
             />
 
-            <TodoList archive={archivePost} posts={posts} tittle="Todo List" toggleTodo={toggleTodo} />
+            <TodoList
+                remove={removePost}
+                archive={archivePost}
+                posts={posts}
+                tittle="Todo List"
+                toggleTodo={toggleTodo}
+            />
             <CustomButton onClick={() => setPopup(true)}>Create todo</CustomButton>
+            <CustomButton onClick={() => archivePost()}>Archive </CustomButton>
 
-            <ArchiveList remove={removePost} posts={archive} tittle="archive" />
+            <ArchiveList remove={removeArchivePost} posts={archive} tittle="archive" />
+
+            <PopUpQuestion
+                visible={popupRemove}
+                setVisible={setPopupRemove}
+                setModal={removePost}
+                title={"Are you sure you want to cancel?"}
+            />
         </div>
     );
 };

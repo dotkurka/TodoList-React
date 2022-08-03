@@ -2,7 +2,6 @@ import React from "react";
 import "../TodoPost/TodoPost.scss";
 import ListItem from "../../../components/ListItem/ListItem";
 import CloseButton from "../../../components/CloseButton/CloseButton";
-import CustomCheckbox from "../../../components/CustomCheckbox/CustomCheckbox";
 
 const ArchivePost = ({ number, post, remove }) => {
     return (
@@ -18,7 +17,6 @@ const ArchivePost = ({ number, post, remove }) => {
             </div>
             <div className="Todo-Post-Button">
                 <CloseButton onClick={() => remove(post)} />
-                <CustomCheckbox />
             </div>
         </ListItem>
     );

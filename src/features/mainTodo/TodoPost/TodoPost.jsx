@@ -4,7 +4,7 @@ import ListItem from "../../../components/ListItem/ListItem";
 import CloseButton from "../../../components/CloseButton/CloseButton";
 import CustomCheckbox from "../../../components/CustomCheckbox/CustomCheckbox";
 
-const TodoPost = ({ toggleTodo, number, post, archive }) => {
+const TodoPost = ({ toggleTodo, number, post, remove }) => {
     return (
         <ListItem className={`${post.complited ? "Toggle-Todo" : ""}`}>
             <div className="Todo-Post-Number">
@@ -17,7 +17,7 @@ const TodoPost = ({ toggleTodo, number, post, archive }) => {
                 <p>{post.descripton}</p>
             </div>
             <div className="Todo-Post-Button">
-                <CloseButton onClick={() => archive(post)} />
+                <CloseButton onClick={() => remove(post)} />
                 <CustomCheckbox onChange={() => toggleTodo(post.id)} />
             </div>
         </ListItem>
