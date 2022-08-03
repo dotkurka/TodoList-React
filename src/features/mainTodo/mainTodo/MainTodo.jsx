@@ -4,6 +4,7 @@ import PopUp from "../../../components/PopUp/PopUp";
 import TodoForm from "../TodoForm/TodoForm";
 import TodoList from "../TodoList/TodoList";
 import PopUpQuestion from "../../../components/PopUpQuestion/PopUpQuestion";
+import ArchiveList from "../ArchiveList/ArchiveList";
 
 const MainTodo = () => {
     const [posts, setPosts] = useState([
@@ -16,12 +17,17 @@ const MainTodo = () => {
         },
         {
             id: 2,
-            title: "First Post",
-            descripton: "description post",
-            userName: "Anton",
+            title: "Last Post",
+            descripton: "Kolya loh you know?",
+            userName: "Sergiy",
             complited: false,
         },
     ]);
+
+    const [popup, setPopup] = useState(false);
+    const [popupQue, setPopupQue] = useState(false);
+
+    const [archive, setArchive] = useState([]);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -35,11 +41,28 @@ const MainTodo = () => {
             }
             return todo;
         });
+
         setPosts(mappedPost);
     };
 
-    const [popup, setPopup] = useState(false);
-    const [popupQue, setPopupQue] = useState(false);
+    const archivePost = (post) => {
+        const newArchive = posts.filter((p) => {
+            if (p.id === post.id) {
+                archive.push(post);
+                console.log(archive);
+                return false;
+            }
+            return post;
+        });
+
+        setPosts(newArchive);
+    };
+
+    const removePost = (post) => {
+        const removeItem = archive.filter((p) => p.id !== post.id);
+
+        setArchive(removeItem);
+    };
 
     return (
         <div>
@@ -53,8 +76,10 @@ const MainTodo = () => {
                 title={"Are you sure you want to cancel?"}
             />
 
-            <TodoList posts={posts} tittle="Todo List" toggleTodo={toggleTodo} />
+            <TodoList archive={archivePost} posts={posts} tittle="Todo List" toggleTodo={toggleTodo} />
             <CustomButton onClick={() => setPopup(true)}>Create todo</CustomButton>
+
+            <ArchiveList remove={removePost} posts={archive} tittle="archive" />
         </div>
     );
 };
