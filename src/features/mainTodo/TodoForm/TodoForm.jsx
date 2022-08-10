@@ -4,7 +4,7 @@ import CustomField from "../../../components/CustomField/CustomField";
 import "./TodoForm.scss";
 import { validationSchema } from "./ValidationSchema";
 
-function TodoForm({ create, setVisible, setModal }) {
+function TodoForm({ create, setVisible, setModal, snackbar }) {
     const initialValues = {
         title: "",
         descripton: "",
@@ -18,6 +18,7 @@ function TodoForm({ create, setVisible, setModal }) {
             complited: false,
         };
         create(newPost);
+        snackbar("Success created");
     };
 
     return (
@@ -27,7 +28,7 @@ function TodoForm({ create, setVisible, setModal }) {
             onSubmit={addNewPost}
             validationSchema={validationSchema}
         >
-            {({ errors, touched, handleBlur, isValid, dirty }) => (
+            {({ errors, touched }) => (
                 <Form className="Todo-Form">
                     <div>
                         <CustomField

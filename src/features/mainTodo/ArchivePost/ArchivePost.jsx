@@ -16,7 +16,7 @@ const ArchivePost = ({ number, post, remove }) => {
                 <p>{post.descripton}</p>
             </div>
             <div className="Todo-Post-Button">
-                <CloseButton onClick={() => remove(post)} />
+                <CloseButton onClick={() => remove(post.id)} />
             </div>
         </ListItem>
     );

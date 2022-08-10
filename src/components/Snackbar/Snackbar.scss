@@ -1,0 +1,50 @@
+.Snackbar {
+    background: rgba(0, 0, 0, 0.593);
+    height: 40px;
+    width: 400px;
+    font-size: 20px;
+    z-index: 2;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    bottom: 0;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: none;
+    &-Title {
+        color: rgb(255, 255, 255);
+    }
+}
+
+.Show {
+    visibility: visible;
+    animation: FadeIn 0.5s, FadeOut 0.5s 2.5s;
+}
+
+.Hidde {
+    visibility: hidden;
+}
+
+@keyframes FadeIn {
+    from {
+        bottom: -100px;
+        opacity: 0;
+    }
+    to {
+        bottom: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes FadeOut {
+    from {
+        bottom: 0;
+        opacity: 1;
+    }
+    to {
+        bottom: -100px;
+        opacity: 0;
+    }
+}
