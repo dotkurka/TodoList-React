@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import PopUp from "../../../components/PopUp/PopUp";
 import TodoForm from "../TodoForm/TodoForm";
@@ -33,26 +33,23 @@ const MainTodo = () => {
         },
     ]);
 
-    const isPosts = useRef();
     const [archive, setArchive] = useState([]);
+
     const [selectedRows, setSeletedRows] = useState([]);
+
     const [popup, setPopup] = useState(false);
     const [popupQue, setPopupQue] = useState(false);
+
     const [showSnackbar, setShowSnackbar] = useState(false);
-    const [dialogConfirm, setDialogConfirm] = useState({
-        message: "",
-        isLoading: false,
-    });
     const [SnackbarType, setSnackbarType] = useState({
         title: "",
     });
 
-    const handleDialogConfirm = (message, isLoading) => {
-        setDialogConfirm({
-            message,
-            isLoading,
-        });
-    };
+    const [showConfirm, setShowConfirm] = useState({
+        show: false,
+        message: "",
+        onConfirm: null,
+    });
 
     const handleSnackbar = (type) => {
         setSnackbarType({
@@ -92,33 +89,40 @@ const MainTodo = () => {
     };
 
     const archivePost = () => {
-        const filteredArchive = posts.filter((post) => {
-            if (selectedRows.some((p) => p === post.id)) {
-                setArchive((prevArhive) => [...prevArhive, post]);
-                return false;
-            }
-            return post;
+        const newArchive = posts.filter((post) => {
+            return selectedRows.includes(post.id);
         });
 
-        setPosts(filteredArchive);
+        setArchive((prevArhive) => [...prevArhive, ...newArchive]);
+
+        const filteredPost = posts.filter((post) => {
+            return !selectedRows.includes(post.id);
+        });
+
+        setPosts(filteredPost);
         handleSnackbar("Succesfully archivated");
     };
 
-    console.log(archive);
-
-    const handleDelete = (id) => {
-        handleDialogConfirm("Are you sure you want to remove this item?", true);
-        isPosts.current = id;
+    const handleDeletePost = (id) => {
+        const removeItem = posts.filter((p) => p.id !== id);
+        setPosts(removeItem);
     };
 
-    const areUShureDelete = (choose) => {
-        if (choose) {
-            handleDialogConfirm("", false);
-            const removeItem = posts.filter((p) => p.id !== isPosts.current);
-            setPosts(removeItem);
-        } else {
-            handleDialogConfirm("", false);
-        }
+    const handleDeleteArchive = (id) => {
+        const removeItem = archive.filter((p) => p.id !== id);
+        setArchive(removeItem);
+    };
+
+    const changeConfirm = (show, message, func) => {
+        setShowConfirm({
+            show,
+            message,
+            onConfirm: func,
+        });
+    };
+
+    const handleConfirm = (message, func) => {
+        changeConfirm(true, message, func);
     };
 
     return (
@@ -142,25 +146,26 @@ const MainTodo = () => {
             />
 
             <TodoList
-                remove={handleDelete}
+                onConfirm={handleConfirm}
+                remove={handleDeletePost}
                 archive={archivePost}
                 posts={posts}
-                tittle="Todo List"
+                title="Todo List"
                 toggleTodo={toggleTodo}
                 selected={slectedPostById}
             />
             <CustomButton onClick={() => setPopup(true)}>Create todo</CustomButton>
-            <CustomButton onClick={() => archivePost()}>Archive </CustomButton>
+            <CustomButton onClick={() => archivePost()}>Archive</CustomButton>
 
-            <ArchiveList remove={handleDelete} posts={archive} tittle="archive" />
+            <ArchiveList remove={handleDeleteArchive} posts={archive} tittle="archive" />
 
-            {dialogConfirm.isLoading && (
-                <ConfirmDialog
-                    onDialog={areUShureDelete}
-                    title={dialogConfirm.message}
-                    snackbar={handleSnackbar}
-                />
-            )}
+            <ConfirmDialog
+                onConfirm={showConfirm.onConfirm}
+                onDialog={changeConfirm}
+                visible={showConfirm.show}
+                title={showConfirm.message}
+                snackbar={handleSnackbar}
+            />
         </div>
     );
 };
