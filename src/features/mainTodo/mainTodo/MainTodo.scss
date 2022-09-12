@@ -1,0 +1,49 @@
+.main-todo {
+    &-archive {
+        display: none;
+    }
+
+    &-post-hidden {
+        display: none;
+    }
+}
+
+.main-button-post {
+    display: flex;
+    position: relative;
+    margin: 15px 0;
+
+    input {
+        position: absolute;
+        right: 25px;
+    }
+
+    button {
+        margin: 0 6px;
+    }
+}
+
+.main-empty-post {
+    display: flex;
+    height: 250px;
+    width: 451px;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    button {
+        margin-left: 10px;
+    }
+}
+
+.main-switch {
+    display: flex;
+    padding: 0 90px;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 20px;
+
+    p {
+        margin: 0 10px;
+    }
+}

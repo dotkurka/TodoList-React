@@ -1,29 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./TodoPost.scss";
 import ListItem from "../../../components/ListItem/ListItem";
 import CloseButton from "../../../components/CloseButton/CloseButton";
-import CustomCheckbox from "../../../components/CustomCheckbox/CustomCheckbox";
+import Checkbox from "../../../components/Checkbox/Checkbox";
+import Context from "../../../context";
 
-const TodoPost = ({ toggleTodo, number, post, remove, selected, onConfirm }) => {
+const TodoPost = ({ toggleTodo, number, post, remove, checkedAll }) => {
+    const { changeConfirm } = useContext(Context);
+
     return (
-        <ListItem className={`${post.complited ? "Toggle-Todo" : ""}`}>
-            <div className="Todo-Post-Number">
+        <ListItem className={`${post.complited ? "toggle-todo" : ""}`}>
+            <div className="todo-post-number">
                 <strong>{number}</strong>
             </div>
-            <div className="Todo-Post-Content">
+            <div className="todo-post-content">
                 <h1>
                     {post.title} from {post.userName}
                 </h1>
                 <p>{post.descripton}</p>
             </div>
-            <div className="Todo-Post-Button">
+            <div className="todo-post-button">
                 <CloseButton
                     onClick={() => {
-                        onConfirm("remove this item", () => remove(post.id));
+                        changeConfirm({
+                            message: "Are you sure you want to remove this item?",
+                            snackMessage: "Success removed",
+                            onConfirm: () => remove(post.id),
+                        });
                     }}
                 />
-                <CustomCheckbox onChange={() => toggleTodo(post.id)} />
-                <CustomCheckbox onChange={() => selected(post.id)} />
+                <Checkbox onChange={() => toggleTodo(post.id)} />
+                <Checkbox checked={post?.isChecked || false} onChange={() => checkedAll(post.id)} />
             </div>
         </ListItem>
     );

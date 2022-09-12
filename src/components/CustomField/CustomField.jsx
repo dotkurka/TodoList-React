@@ -4,9 +4,9 @@ import "./CustomField.scss";
 
 const CustomField = (props) => {
     return (
-        <div className="Custom-Field">
-            <Field {...props} placeholder=" " className={`Custom-Field-Input ${props.classes}`} />
-            <label className="Custom-Field-Lable">{props.title}</label>
+        <div className="custom-field">
+            <Field {...props} placeholder=" " className={`custom-field-input ${props.classes}`} />
+            <label className="custom-field-lable">{props.title}</label>
         </div>
     );
 };

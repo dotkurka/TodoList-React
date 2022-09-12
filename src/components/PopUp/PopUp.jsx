@@ -4,8 +4,8 @@ import "./PopUp.scss";
 
 const PopUp = ({ children, visible, setVisible }) => {
     return (
-        <div className={`Pop-Up  ${visible ? "Active" : ""}`} onClick={() => setVisible(false)}>
-            <div className="Pop-Up-Contain">
+        <div className={`pop-up  ${visible ? "active" : ""}`} onClick={() => setVisible(false)}>
+            <div className="pop-up-contain">
                 <CloseButton onClick={() => setVisible(false)} />
             </div>
             <div onClick={(e) => e.stopPropagation()}>{children}</div>

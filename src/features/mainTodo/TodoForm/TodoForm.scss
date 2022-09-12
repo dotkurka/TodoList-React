@@ -1,6 +1,8 @@
-.Todo-Form {
+@import "./../../../style/Colors.scss";
+
+.todo-form {
     background: white;
-    border: 2px solid rgb(97, 0, 238);
+    border: 2px solid $electricViolet;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -9,14 +11,15 @@
     width: 500px;
     height: 300px;
     padding: 30px 0;
-    &-Button {
+
+    &-button {
         display: flex;
         justify-content: space-between;
         width: 240px;
     }
 }
 
-.Error-Lable {
+.error-lable {
     position: relative;
     top: 1px;
     left: 2px;
@@ -24,6 +27,6 @@
     color: red;
 }
 
-.Error-Title {
+.error-title {
     border-color: red;
 }

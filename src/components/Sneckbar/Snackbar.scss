@@ -1,4 +1,4 @@
-.Snackbar {
+.snackbar {
     background: rgba(0, 0, 0, 0.593);
     height: 40px;
     width: 400px;
@@ -13,17 +13,18 @@
     justify-content: center;
     border-radius: 5px;
     border: none;
-    &-Title {
+
+    &-title {
         color: rgb(255, 255, 255);
     }
 }
 
-.Show {
+.show {
     visibility: visible;
     animation: FadeIn 0.5s, FadeOut 0.5s 2.5s;
 }
 
-.Hidde {
+.hidde {
     visibility: hidden;
 }
 

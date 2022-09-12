@@ -1,15 +1,14 @@
+@import "./../../style/Colors.scss";
+
 $radius: 10px;
-$brdcolor: rgb(97, 0, 238);
-$brdhover: rgb(1, 145, 255);
-$brdfocus: rgb(3, 115, 201);
 $bgcolor: white;
 
-.Custom-Field {
+.custom-field {
     position: relative;
-    &-Input {
+    &-input {
         width: 340px;
         height: 45px;
-        border: 2px solid $brdcolor;
+        border: 2px solid $electricViolet;
         border-radius: $radius;
         outline: none;
         padding: 0 18px;
@@ -17,31 +16,31 @@ $bgcolor: white;
         font-size: 1.2rem;
 
         &:hover {
-            border-color: $brdhover;
+            border-color: $azureRadiance;
         }
         &:focus {
-            border-color: $brdfocus;
+            border-color: $lochmara;
         }
     }
-    &-Lable {
+    &-lable {
         position: absolute;
         left: 13px;
         top: 14px;
         padding: 0 0.5rem;
-        color: $brdcolor;
+        color: $electricViolet;
         cursor: text;
         transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
     }
 }
 
-.Custom-Field-Input:focus ~ .Custom-Field-Lable,
-.Custom-Field-Input:not(:placeholder-shown).Custom-Field-Input:not(:focus) ~ .Custom-Field-Lable {
+.custom-field-input:focus ~ .custom-field-lable,
+.custom-field-input:not(:placeholder-shown).custom-field-input:not(:focus) ~ .custom-field-lable {
     top: -0.5rem;
     font-size: 0.9rem;
     left: 0.8rem;
     background-color: $bgcolor;
 }
 
-.Error-Input {
+.error-input {
     border-color: red;
 }

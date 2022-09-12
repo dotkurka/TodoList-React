@@ -1,25 +1,30 @@
 import React from "react";
-import CustomButton from "../CustomButton/CustomButton";
+import Button from "../Button/Button";
 import "./ConfirmDialog.scss";
 
-const ConfirmDialog = ({ title, onDialog, snackbar, visible, onConfirm }) => {
+const ConfirmDialog = ({ title, onDialog, visible, onConfirm, onCancel }) => {
     return (
-        <div className={visible ? "Dialog-Show" : "Dialog-Hidden"}>
-            <div className="Confirm-Dialog">
-                <div className="Confirm-Dialog-Contain">
+        <div className={visible ? "dialog-show" : "dialog-hidden"}>
+            <div className="confirm-dialog">
+                <div className="confirm-dialog-contain">
                     <p>{title}</p>
-                    <div className="Confirm-Dialog-Button">
-                        <CustomButton
+                    <div className="confirm-dialog-button">
+                        <Button
                             onClick={() => {
                                 onConfirm?.();
-                                snackbar("Success removed");
-                                onDialog(false);
                             }}
-                            cancel="Cancel-Button"
+                            cancel="cancel-button"
                         >
                             Yes
-                        </CustomButton>
-                        <CustomButton onClick={() => onDialog(false)}>No</CustomButton>
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                onCancel?.();
+                                onDialog(false);
+                            }}
+                        >
+                            No
+                        </Button>
                     </div>
                 </div>
             </div>

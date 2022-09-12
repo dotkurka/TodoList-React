@@ -1,0 +1,15 @@
+.todo-arhive {
+    &-number {
+        position: absolute;
+        left: -22px;
+        top: 20px;
+        color: rgb(255, 255, 255);
+        font-size: 24px;
+    }
+
+    &-button {
+        width: 110px;
+        display: flex;
+        justify-content: space-between;
+    }
+}

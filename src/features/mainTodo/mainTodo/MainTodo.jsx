@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import CustomButton from "../../../components/CustomButton/CustomButton";
+import Button from "../../../components/Button/Button";
 import PopUp from "../../../components/PopUp/PopUp";
 import TodoForm from "../TodoForm/TodoForm";
 import TodoList from "../TodoList/TodoList";
-import PopUpQuestion from "../../../components/PopUpQuestion/PopUpQuestion";
 import ArchiveList from "../ArchiveList/ArchiveList";
 import ConfirmDialog from "../../../components/ConfirmDialog/ConfirmDialog";
-import Snackbar from "../../../components/Snackbar/Snackbar";
+import Snackbar from "../../../components/Sneckbar/Snackbar";
+import Context from "../../../context";
+import "./MainTodo.scss";
+import Checkbox from "../../../components/Checkbox/Checkbox";
+import ToggleSwitch from "../../../components/ToggleSwitch/ToggleSwitch";
 
 const MainTodo = () => {
-    const [posts, setPosts] = useState([
+    const tempPost = [
         {
             id: 1,
             title: "First Post",
             descripton: "description post",
             userName: "Anton",
             complited: false,
+            isChecked: false,
         },
         {
             id: 2,
@@ -23,25 +27,17 @@ const MainTodo = () => {
             descripton: "Kolya loh you know?",
             userName: "Sergiy",
             complited: false,
+            isChecked: false,
         },
-        {
-            id: 3,
-            title: "Bla Post",
-            descripton: "Kolya loh you know?",
-            userName: "Sergiy",
-            complited: false,
-        },
-    ]);
+    ];
 
+    const [posts, setPosts] = useState(tempPost);
     const [archive, setArchive] = useState([]);
-
     const [selectedRows, setSeletedRows] = useState([]);
-
+    const [showTodo, setShowTodo] = useState(true);
     const [popup, setPopup] = useState(false);
-    const [popupQue, setPopupQue] = useState(false);
-
-    const [showSnackbar, setShowSnackbar] = useState(false);
-    const [SnackbarType, setSnackbarType] = useState({
+    const [showSnackbar, setShowSnackbar] = useState({
+        show: false,
         title: "",
     });
 
@@ -49,17 +45,30 @@ const MainTodo = () => {
         show: false,
         message: "",
         onConfirm: null,
+        onCancel: null,
     });
 
     const handleSnackbar = (type) => {
-        setSnackbarType({
+        setShowSnackbar({
+            show: true,
             title: type,
         });
+    };
 
-        setShowSnackbar(true);
-        setTimeout(() => {
-            setShowSnackbar(false);
-        }, 2900);
+    const visiblePopUp = (visible) => {
+        setPopup(visible);
+    };
+
+    const visibleSnackbar = (visible) => {
+        setShowSnackbar(visible);
+    };
+
+    const visibleConfirmDialog = (visible) => {
+        setShowConfirm(visible);
+    };
+
+    const hendleChangePage = () => {
+        setShowTodo(!showTodo);
     };
 
     const createPost = (newPost) => {
@@ -85,6 +94,7 @@ const MainTodo = () => {
             setSeletedRows(fileteredRows);
             return;
         }
+
         setSeletedRows([...selectedRows, id]);
     };
 
@@ -100,7 +110,22 @@ const MainTodo = () => {
         });
 
         setPosts(filteredPost);
-        handleSnackbar("Succesfully archivated");
+        setSeletedRows([]);
+    };
+
+    const unarchivePost = () => {
+        const newUnarchive = archive.filter((post) => {
+            return selectedRows.includes(post.id);
+        });
+
+        setPosts((prevPost) => [...prevPost, ...newUnarchive]);
+
+        const filteredPost = archive.filter((post) => {
+            return !selectedRows.includes(post.id);
+        });
+
+        setArchive(filteredPost);
+        setSeletedRows([]);
     };
 
     const handleDeletePost = (id) => {
@@ -113,60 +138,157 @@ const MainTodo = () => {
         setArchive(removeItem);
     };
 
-    const changeConfirm = (show, message, func) => {
+    const changeConfirm = ({ message, snackMessage, onConfirm, onCancel }) => {
+        const handleConfirm = () => {
+            onConfirm?.();
+            visibleConfirmDialog(false);
+
+            if (snackMessage) {
+                handleSnackbar(snackMessage);
+            }
+        };
+
+        const handleCencel = () => {
+            onCancel?.();
+        };
+
         setShowConfirm({
-            show,
+            show: true,
             message,
-            onConfirm: func,
+            onConfirm: handleConfirm,
+            onCancel: handleCencel,
         });
     };
 
-    const handleConfirm = (message, func) => {
-        changeConfirm(true, message, func);
+    const disableButton = (func) => {
+        if (selectedRows.length !== 0) {
+            func();
+        } else {
+            handleSnackbar("Please select post");
+            return false;
+        }
+    };
+
+    const handleSelectPost = (id) => {
+        let selectPost = posts.map((post) =>
+            post.id === id ? { ...post, isChecked: !post.isChecked } : post
+        );
+        setPosts(selectPost);
+        slectedPostById(id);
+    };
+
+    const handleSelectAllPost = () => {
+        let selectPost = posts.map((post) => {
+            return { ...post, isChecked: !post.isChecked };
+        });
+        setPosts(selectPost);
     };
 
     return (
-        <div>
-            <Snackbar visible={showSnackbar} message={SnackbarType.title} />
-
-            <PopUp visible={popup} setVisible={setPopup}>
-                <TodoForm
-                    setVisible={setPopupQue}
-                    setModal={setPopup}
-                    create={createPost}
-                    snackbar={handleSnackbar}
+        <Context.Provider
+            value={{
+                changeConfirm,
+            }}
+        >
+            <div>
+                <Snackbar
+                    visible={showSnackbar.show}
+                    message={showSnackbar.title}
+                    hidden={visibleSnackbar}
                 />
-            </PopUp>
+                <div className="main-switch">
+                    <p>Post</p>
+                    <ToggleSwitch onChange={() => hendleChangePage()} />
+                    <p>Archive</p>
+                </div>
 
-            <PopUpQuestion
-                visible={popupQue}
-                setVisible={setPopupQue}
-                setModal={setPopup}
-                title={"Are you sure you want to cancel?"}
-            />
+                <div className={showTodo ? "main-todo-post" : "main-todo-post-hidden"}>
+                    <PopUp visible={popup} setVisible={visiblePopUp}>
+                        <TodoForm
+                            visible={visiblePopUp}
+                            create={createPost}
+                            onConfirm={changeConfirm}
+                            snackbar={handleSnackbar}
+                        />
+                    </PopUp>
 
-            <TodoList
-                onConfirm={handleConfirm}
-                remove={handleDeletePost}
-                archive={archivePost}
-                posts={posts}
-                title="Todo List"
-                toggleTodo={toggleTodo}
-                selected={slectedPostById}
-            />
-            <CustomButton onClick={() => setPopup(true)}>Create todo</CustomButton>
-            <CustomButton onClick={() => archivePost()}>Archive</CustomButton>
+                    {posts.length !== 0 ? (
+                        <div>
+                            <TodoList
+                                checkedAll={handleSelectPost}
+                                remove={handleDeletePost}
+                                archive={archivePost}
+                                posts={posts}
+                                title="Todo List"
+                                toggleTodo={toggleTodo}
+                            />
+                            <div className="main-button-post">
+                                <Button onClick={() => setPopup(true)}>Create todo</Button>
+                                <Button
+                                    cancel="cancel-button"
+                                    onClick={() =>
+                                        disableButton(() =>
+                                            changeConfirm({
+                                                message: "Are you sure you want to achive this items?",
+                                                snackMessage: "Succesfully archivated",
+                                                onConfirm: archivePost,
+                                            })
+                                        )
+                                    }
+                                >
+                                    Archive
+                                </Button>
 
-            <ArchiveList remove={handleDeleteArchive} posts={archive} tittle="archive" />
+                                <Checkbox
+                                    checked={posts.filter((post) => post?.isChecked !== true).length < 1}
+                                    onChange={() => handleSelectAllPost()}
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="main-empty-post">
+                            <div>The list of posts is empty, maybe you want to </div>
+                            <Button onClick={() => setPopup(true)}>Create todo</Button>
+                        </div>
+                    )}
+                </div>
 
-            <ConfirmDialog
-                onConfirm={showConfirm.onConfirm}
-                onDialog={changeConfirm}
-                visible={showConfirm.show}
-                title={showConfirm.message}
-                snackbar={handleSnackbar}
-            />
-        </div>
+                <div className={showTodo ? "main-todo-archive" : ""}>
+                    {archive.length !== 0 ? (
+                        <div>
+                            <ArchiveList
+                                remove={handleDeleteArchive}
+                                posts={archive}
+                                tittle="Archive List"
+                                selected={slectedPostById}
+                            />
+                            <Button
+                                onClick={() =>
+                                    disableButton(() =>
+                                        changeConfirm({
+                                            message: "Are you sure you want to achive this items?",
+                                            snackMessage: "Succesfully archivated",
+                                            onConfirm: unarchivePost,
+                                        })
+                                    )
+                                }
+                            >
+                                Unarchive
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="main-empty-post">The list of archive is empty</div>
+                    )}
+                </div>
+                <ConfirmDialog
+                    onDialog={visibleConfirmDialog}
+                    onConfirm={showConfirm.onConfirm}
+                    onCancel={showConfirm.onCancel}
+                    visible={showConfirm.show}
+                    title={showConfirm.message}
+                />
+            </div>
+        </Context.Provider>
     );
 };
 

@@ -1,4 +1,6 @@
-.Confirm-Dialog {
+@import "./../../style/Colors.scss";
+
+.confirm-dialog {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,31 +11,38 @@
     align-items: center;
     z-index: 2;
     background: rgba(0, 0, 0, 0.5);
-    &-Contain {
-        font-size: 30px;
+
+    p {
+        text-align: center;
+    }
+
+    &-contain {
+        font-size: 24px;
         padding: 30px;
         width: 480px;
         height: 160px;
         background: white;
-        border: 2px solid rgb(97, 0, 238);
+        border: 2px solid $electricViolet;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
     }
-    &-Button {
+
+    &-button {
         display: flex;
         justify-content: space-between;
         width: 250px;
     }
 }
 
-.Dialog {
-    &-Show {
+.dialog {
+    &-show {
         visibility: visible;
     }
-    &-Hidden {
+
+    &-hidden {
         visibility: hidden;
     }
 }

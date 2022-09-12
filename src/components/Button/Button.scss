@@ -1,7 +1,7 @@
-$bgcolor: rgb(97, 0, 238);
+@import "./../../style/Colors.scss";
 
-.Custom-Button {
-    background: $bgcolor;
+.custom-button {
+    background: $electricViolet;
     border-radius: 6px;
     color: white;
     width: 98px;
@@ -10,19 +10,21 @@ $bgcolor: rgb(97, 0, 238);
     border: none;
     box-shadow: -3px 7px 12px -6px rgba(0, 0, 0, 0.479);
     cursor: pointer;
+
     &:hover {
-        background: rgb(109, 11, 255);
+        background: $electricIndigo;
         box-shadow: -3px 7px 12px -2px rgba(0, 0, 0, 0.479);
     }
 }
 
-.Cancel-Button {
-    border: 2px solid rgb(97, 0, 238);
-    color: rgb(97, 0, 238);
+.cancel-button {
+    border: 2px solid $electricViolet;
+    color: $electricViolet;
     background-color: white;
+
     &:hover {
         background-color: white;
-        border-color: rgb(109, 11, 255);
+        border-color: $electricIndigo;
         box-shadow: -3px 7px 12px -2px rgba(0, 0, 0, 0.479);
     }
 }

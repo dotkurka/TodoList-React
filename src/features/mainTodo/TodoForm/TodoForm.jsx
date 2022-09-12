@@ -1,10 +1,10 @@
 import { Formik, Form } from "formik";
-import CustomButton from "../../../components/CustomButton/CustomButton";
-import CustomField from "../../../components/CustomField/CustomField";
+import Button from "../../../components/Button/Button";
+import FormItem from "./FormItem";
 import "./TodoForm.scss";
 import { validationSchema } from "./ValidationSchema";
 
-function TodoForm({ create, setVisible, setModal, snackbar }) {
+function TodoForm({ create, visible, onConfirm, snackbar }) {
     const initialValues = {
         title: "",
         descripton: "",
@@ -17,8 +17,8 @@ function TodoForm({ create, setVisible, setModal, snackbar }) {
             id: Date.now(),
             complited: false,
         };
-        create(newPost);
         snackbar("Success created");
+        create(newPost);
     };
 
     return (
@@ -29,49 +29,42 @@ function TodoForm({ create, setVisible, setModal, snackbar }) {
             validationSchema={validationSchema}
         >
             {({ errors, touched }) => (
-                <Form className="Todo-Form">
-                    <div>
-                        <CustomField
-                            name="title"
-                            title="Todo name"
-                            classes={errors.title && touched.title ? "Error-Input" : ""}
-                        />
-                        {errors.title && touched.title ? (
-                            <div className="Error-Lable">{errors.title}</div>
-                        ) : null}
-                    </div>
-                    <div>
-                        <CustomField
-                            name="descripton"
-                            title="Descripton"
-                            classes={errors.descripton && touched.descripton ? "Error-Input" : ""}
-                        />
-                        {errors.descripton && touched.descripton ? (
-                            <div className="Error-Lable">{errors.descripton}</div>
-                        ) : null}
-                    </div>
-                    <div>
-                        <CustomField
-                            name="userName"
-                            title="First name"
-                            classes={errors.userName && touched.userName ? "Error-Input" : ""}
-                        />
-                        {errors.userName && touched.userName ? (
-                            <div className="Error-Lable">{errors.userName}</div>
-                        ) : null}
-                    </div>
-                    <div className="Todo-Form-Button">
-                        <CustomButton
+                <Form className="todo-form">
+                    <FormItem
+                        name="title"
+                        title="Todo name"
+                        errors={errors.title}
+                        touched={touched.title}
+                    />
+                    <FormItem
+                        name="descripton"
+                        title="Descripton"
+                        errors={errors.descripton}
+                        touched={touched.descripton}
+                    />
+                    <FormItem
+                        name="userName"
+                        title="First name"
+                        errors={errors.userName}
+                        touched={touched.userName}
+                    />
+
+                    <div className="todo-form-button">
+                        <Button
                             type="button"
-                            cancel="Cancel-Button"
+                            cancel="cancel-button"
                             onClick={() => {
-                                setModal(false);
-                                setVisible(true);
+                                visible(false);
+                                onConfirm({
+                                    message: "remove this item",
+                                    onConfirm: () => visible(false),
+                                    onCancel: () => visible(true),
+                                });
                             }}
                         >
                             Cancel
-                        </CustomButton>
-                        <CustomButton type="submit">Submit</CustomButton>
+                        </Button>
+                        <Button type="submit">Submit</Button>
                     </div>
                 </Form>
             )}
